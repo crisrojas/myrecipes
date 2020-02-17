@@ -11,12 +11,15 @@ import UIKit
 class ViewController: UITableViewController {
 
     var recipes : [Recipe] = []
+    var name = "Tortilla de papas"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        var recipe = Recipe(name: "Tortilla de patatas",
+        
+        
+        var recipe = Recipe(name: name,
                             image: #imageLiteral(resourceName: "tortilla-española"),
                             time: 20,
                             ingredients: ["Patatas", "Huevos", "Cebollas"],
