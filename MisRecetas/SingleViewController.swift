@@ -15,31 +15,39 @@ class SingleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        // Data model
         var recipe = Recipe(name: "Tortilla de patatas",
-                            image: #imageLiteral(resourceName: "tortilla-española"),
+                            image: #imageLiteral(resourceName: "tortilla"),
                             time: 20,
                             ingredients: ["Patatas", "Huevos", "Cebollas"],
                             steps: ["Pelar las patatas y la cebolla"])
         recipes.append(recipe)
         
         recipe = Recipe(name: "Pizza margarita",
-                        image: #imageLiteral(resourceName: "no-image"),
+                        image: #imageLiteral(resourceName: "pizza"),
                         time: 60,
                         ingredients: ["Tomate", "Chamiñones", "Cebolla", "Harina"],
                         steps: ["Cortar los tomates", "Hacer la masa con harina, levadura, aceite y sal"])
         recipes.append(recipe)
         
         recipe = Recipe(name: "Hamburguesa con queso",
-                        image: #imageLiteral(resourceName: "no-image"),
+                        image: #imageLiteral(resourceName: "burger"),
                         time: 10,
                         ingredients: ["Carne", "Pan de hamburgesa", "Lechuga", "Bacon"],
                         steps: ["Hacer la carne al gusto", "Montar la hamburguesa "])
         recipes.append(recipe)
+        // Tabe view styles
+        
+        self.tableView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 0.25)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.separatorColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 0.25)
 
         
     }
+    
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -73,7 +81,7 @@ extension SingleViewController: UITableViewDataSource {
         let cellID = "RecipeCell"
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! RecipeCell
-        
+        cell.backgroundColor = UIColor.clear
         cell.thumbnailImage.image = recipe.image
         cell.nameLabel.text = recipe.name
         cell.timeLabel.text = "\(recipe.time!) min"
@@ -82,20 +90,21 @@ extension SingleViewController: UITableViewDataSource {
         cell.thumbnailImage.layer.cornerRadius = 42.0
         //cell.thumbnailImage.layer.masksToBounds = true
         
-        if recipe.isFavourite {
+        /*if recipe.isFavourite {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
-        }
+        }*/
         return cell
     }
     
    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        //Compartir
+        // Compartir
+        
         let shareAction = UITableViewRowAction(style: .default, title: "Compartir") { (action, indexPath) in
-            let shareDefaultText = "Estoy mirando la receta de \(self.recipes[indexPath.row].name!) en la App del curso de iOS10 con juan gabriel"
+            let shareDefaultText = "Estoy mirando la receta de \(self.recipes[indexPath.row].name!)"
             let shareImage = self.recipes[indexPath.row].image!
             let activityController = UIActivityViewController(activityItems: [shareDefaultText,shareImage], applicationActivities: nil)
             
@@ -104,13 +113,13 @@ extension SingleViewController: UITableViewDataSource {
         
         shareAction.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         
-        //Borrar
+        // Borrar
         
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Eliminar") { (action, indexPath) in
             self.recipes.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .fade)
         }
-        deleteAction.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        deleteAction.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 1)
         return [shareAction,deleteAction]
     }
 }
